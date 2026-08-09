@@ -10,6 +10,8 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as InvestigateRouteImport } from './routes/investigate'
+import { Route as WorkflowRouteImport } from './routes/workflow'
 import { Route as ApiHealthRouteImport } from './routes/api/health'
 import { Route as ApiInvestigateRouteImport } from './routes/api/investigate'
 import { Route as ApiKnowledgeRouteImport } from './routes/api/knowledge'
@@ -17,6 +19,16 @@ import { Route as ApiKnowledgeRouteImport } from './routes/api/knowledge'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InvestigateRoute = InvestigateRouteImport.update({
+  id: '/investigate',
+  path: '/investigate',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WorkflowRoute = WorkflowRouteImport.update({
+  id: '/workflow',
+  path: '/workflow',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiHealthRoute = ApiHealthRouteImport.update({
@@ -37,12 +49,16 @@ const ApiKnowledgeRoute = ApiKnowledgeRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/investigate': typeof InvestigateRoute
+  '/workflow': typeof WorkflowRoute
   '/api/health': typeof ApiHealthRoute
   '/api/investigate': typeof ApiInvestigateRoute
   '/api/knowledge': typeof ApiKnowledgeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/investigate': typeof InvestigateRoute
+  '/workflow': typeof WorkflowRoute
   '/api/health': typeof ApiHealthRoute
   '/api/investigate': typeof ApiInvestigateRoute
   '/api/knowledge': typeof ApiKnowledgeRoute
@@ -50,20 +66,43 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/investigate': typeof InvestigateRoute
+  '/workflow': typeof WorkflowRoute
   '/api/health': typeof ApiHealthRoute
   '/api/investigate': typeof ApiInvestigateRoute
   '/api/knowledge': typeof ApiKnowledgeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/api/health' | '/api/investigate' | '/api/knowledge'
+  fullPaths:
+    | '/'
+    | '/investigate'
+    | '/workflow'
+    | '/api/health'
+    | '/api/investigate'
+    | '/api/knowledge'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/health' | '/api/investigate' | '/api/knowledge'
-  id: '__root__' | '/' | '/api/health' | '/api/investigate' | '/api/knowledge'
+  to:
+    | '/'
+    | '/investigate'
+    | '/workflow'
+    | '/api/health'
+    | '/api/investigate'
+    | '/api/knowledge'
+  id:
+    | '__root__'
+    | '/'
+    | '/investigate'
+    | '/workflow'
+    | '/api/health'
+    | '/api/investigate'
+    | '/api/knowledge'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  InvestigateRoute: typeof InvestigateRoute
+  WorkflowRoute: typeof WorkflowRoute
   ApiHealthRoute: typeof ApiHealthRoute
   ApiInvestigateRoute: typeof ApiInvestigateRoute
   ApiKnowledgeRoute: typeof ApiKnowledgeRoute
@@ -76,6 +115,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/investigate': {
+      id: '/investigate'
+      path: '/investigate'
+      fullPath: '/investigate'
+      preLoaderRoute: typeof InvestigateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/workflow': {
+      id: '/workflow'
+      path: '/workflow'
+      fullPath: '/workflow'
+      preLoaderRoute: typeof WorkflowRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/health': {
@@ -104,6 +157,8 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  InvestigateRoute: InvestigateRoute,
+  WorkflowRoute: WorkflowRoute,
   ApiHealthRoute: ApiHealthRoute,
   ApiInvestigateRoute: ApiInvestigateRoute,
   ApiKnowledgeRoute: ApiKnowledgeRoute,
