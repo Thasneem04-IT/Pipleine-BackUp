@@ -4,7 +4,7 @@ import { AppShell } from "@/components/AppShell";
 import { EmptyState, FlowStrip, Metric, Panel } from "@/components/ui-kit";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { useAppState } from "@/lib/store";
+import { store, useAppState } from "@/lib/store";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -123,7 +123,7 @@ function Dashboard() {
                       {Math.round(h.evaluation.confidence * 100)}% conf
                     </span>
                     <Button asChild size="sm" variant="secondary">
-                      <Link to="/report" onClick={() => useAppState}>
+                      <Link to="/report" onClick={() => store.selectInvestigation(h.id)}>
                         Open
                       </Link>
                     </Button>
