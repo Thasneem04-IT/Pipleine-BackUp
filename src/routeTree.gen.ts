@@ -11,6 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as InvestigateRouteImport } from './routes/investigate'
+import { Route as KnowledgeRouteImport } from './routes/knowledge'
+import { Route as ReportRouteImport } from './routes/report'
 import { Route as WorkflowRouteImport } from './routes/workflow'
 import { Route as ApiHealthRouteImport } from './routes/api/health'
 import { Route as ApiInvestigateRouteImport } from './routes/api/investigate'
@@ -24,6 +26,16 @@ const IndexRoute = IndexRouteImport.update({
 const InvestigateRoute = InvestigateRouteImport.update({
   id: '/investigate',
   path: '/investigate',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KnowledgeRoute = KnowledgeRouteImport.update({
+  id: '/knowledge',
+  path: '/knowledge',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReportRoute = ReportRouteImport.update({
+  id: '/report',
+  path: '/report',
   getParentRoute: () => rootRouteImport,
 } as any)
 const WorkflowRoute = WorkflowRouteImport.update({
@@ -50,6 +62,8 @@ const ApiKnowledgeRoute = ApiKnowledgeRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/investigate': typeof InvestigateRoute
+  '/knowledge': typeof KnowledgeRoute
+  '/report': typeof ReportRoute
   '/workflow': typeof WorkflowRoute
   '/api/health': typeof ApiHealthRoute
   '/api/investigate': typeof ApiInvestigateRoute
@@ -58,6 +72,8 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/investigate': typeof InvestigateRoute
+  '/knowledge': typeof KnowledgeRoute
+  '/report': typeof ReportRoute
   '/workflow': typeof WorkflowRoute
   '/api/health': typeof ApiHealthRoute
   '/api/investigate': typeof ApiInvestigateRoute
@@ -67,6 +83,8 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/investigate': typeof InvestigateRoute
+  '/knowledge': typeof KnowledgeRoute
+  '/report': typeof ReportRoute
   '/workflow': typeof WorkflowRoute
   '/api/health': typeof ApiHealthRoute
   '/api/investigate': typeof ApiInvestigateRoute
@@ -77,6 +95,8 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/investigate'
+    | '/knowledge'
+    | '/report'
     | '/workflow'
     | '/api/health'
     | '/api/investigate'
@@ -85,6 +105,8 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/investigate'
+    | '/knowledge'
+    | '/report'
     | '/workflow'
     | '/api/health'
     | '/api/investigate'
@@ -93,6 +115,8 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/investigate'
+    | '/knowledge'
+    | '/report'
     | '/workflow'
     | '/api/health'
     | '/api/investigate'
@@ -102,6 +126,8 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   InvestigateRoute: typeof InvestigateRoute
+  KnowledgeRoute: typeof KnowledgeRoute
+  ReportRoute: typeof ReportRoute
   WorkflowRoute: typeof WorkflowRoute
   ApiHealthRoute: typeof ApiHealthRoute
   ApiInvestigateRoute: typeof ApiInvestigateRoute
@@ -122,6 +148,20 @@ declare module '@tanstack/react-router' {
       path: '/investigate'
       fullPath: '/investigate'
       preLoaderRoute: typeof InvestigateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/knowledge': {
+      id: '/knowledge'
+      path: '/knowledge'
+      fullPath: '/knowledge'
+      preLoaderRoute: typeof KnowledgeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/report': {
+      id: '/report'
+      path: '/report'
+      fullPath: '/report'
+      preLoaderRoute: typeof ReportRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/workflow': {
@@ -158,6 +198,8 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   InvestigateRoute: InvestigateRoute,
+  KnowledgeRoute: KnowledgeRoute,
+  ReportRoute: ReportRoute,
   WorkflowRoute: WorkflowRoute,
   ApiHealthRoute: ApiHealthRoute,
   ApiInvestigateRoute: ApiInvestigateRoute,
