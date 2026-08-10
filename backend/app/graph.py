@@ -253,39 +253,39 @@ def build_graph():
     g = StateGraph(GraphState)
     g.add_node("planner", planner_agent)
     g.add_node("log", log_agent)
-    g.add_node("rag", rag_agent)
-    g.add_node("schema", schema_agent)
-    g.add_node("risk", risk_agent)
-    g.add_node("recovery", recovery_agent)
-    g.add_node("reviewer", reviewer_agent)
-    g.add_node("evaluation", evaluation_agent)
+    g.add_node("rag_agent", rag_agent)
+    g.add_node("schema_agent", schema_agent)
+    g.add_node("risk_agent", risk_agent)
+    g.add_node("recovery_agent", recovery_agent)
+    g.add_node("reviewer_agent", reviewer_agent)
+    g.add_node("evaluation_agent", evaluation_agent)
 
     g.add_edge(START, "planner")
     g.add_edge("planner", "log")
-    g.add_edge("planner", "rag")
-    g.add_edge("rag", "schema")  # schema uses retrieved contract text
-    g.add_edge("log", "risk")
-    g.add_edge("schema", "risk")
-    g.add_edge("risk", "recovery")
-    g.add_edge("recovery", "reviewer")
-    g.add_edge("reviewer", "evaluation")
-    g.add_edge("evaluation", END)
+    g.add_edge("planner", "rag_agent")
+    g.add_edge("rag_agent", "schema_agent")  # schema uses retrieved contract text
+    g.add_edge("log", "risk_agent")
+    g.add_edge("schema_agent", "risk_agent")
+    g.add_edge("risk_agent", "recovery_agent")
+    g.add_edge("recovery_agent", "reviewer_agent")
+    g.add_edge("reviewer_agent", "evaluation_agent")
+    g.add_edge("evaluation_agent", END)
     return g.compile()
 
 
 GRAPH = build_graph()
 
 SUCCESSORS = {
-    "planner": ["log", "rag"],
-    "rag": ["schema"],
+    "planner": ["log", "rag_agent"],
+    "rag_agent": ["schema_agent"],
     "log": [],
-    "schema": [],
-    "risk": ["recovery"],
-    "recovery": ["reviewer"],
-    "reviewer": ["evaluation"],
-    "evaluation": [],
+    "schema_agent": [],
+    "risk_agent": ["recovery_agent"],
+    "recovery_agent": ["reviewer_agent"],
+    "reviewer_agent": ["evaluation_agent"],
+    "evaluation_agent": [],
 }
-AGENT_IDS = ["planner", "log", "rag", "schema", "risk", "recovery", "reviewer", "evaluation"]
+AGENT_IDS = ["planner", "log", "rag_agent", "schema_agent", "risk_agent", "recovery_agent", "reviewer_agent", "evaluation_agent"]
 
 
 def run_stream(incident: Dict[str, Any]) -> Iterator[str]:
@@ -328,8 +328,8 @@ def run_stream(incident: Dict[str, Any]) -> Iterator[str]:
                 for nxt in SUCCESSORS.get(node, []):
                     if nxt not in done:
                         yield event({"type": "agent", "id": nxt, "status": "running"})
-                if node in ("log", "schema") and {"log", "schema"} <= done and "risk" not in done:
-                    yield event({"type": "agent", "id": "risk", "status": "running"})
+                if node in ("log", "schema_agent") and {"log", "schema_agent"} <= done and "risk_agent" not in done:
+                    yield event({"type": "agent", "id": "risk_agent", "status": "running"})
     except Exception as exc:
         yield event({"type": "error", "message": f"LangGraph execution failed: {exc}"})
         return
