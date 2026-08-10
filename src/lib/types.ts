@@ -1,12 +1,22 @@
+// export type AgentId =
+//   | "planner"
+//   | "log"
+//   | "rag"
+//   | "schema"
+//   | "risk"
+//   | "recovery"
+//   | "reviewer"
+//   | "evaluation";
+
 export type AgentId =
   | "planner"
   | "log"
-  | "rag"
-  | "schema"
-  | "risk"
-  | "recovery"
-  | "reviewer"
-  | "evaluation";
+  | "rag_agent"
+  | "schema_agent"
+  | "risk_agent"
+  | "recovery_agent"
+  | "reviewer_agent"
+  | "evaluation_agent";
 
 export type AgentStatus = "waiting" | "running" | "completed" | "failed";
 
@@ -105,15 +115,26 @@ export type StreamEvent =
   | { type: "result"; investigation: Investigation }
   | { type: "error"; message: string };
 
+// export const AGENT_ORDER: { id: AgentId; name: string; role: string }[] = [
+//   { id: "planner", name: "Planner", role: "Builds the investigation plan" },
+//   { id: "log", name: "Log Agent", role: "Parses pipeline logs for errors" },
+//   { id: "rag", name: "RAG Agent", role: "Retrieves enterprise knowledge" },
+//   { id: "schema", name: "Schema Agent", role: "Detects schema drift" },
+//   { id: "risk", name: "Risk Agent", role: "Severity, impact, SLA risk" },
+//   { id: "recovery", name: "Recovery Agent", role: "Recommends recovery steps" },
+//   { id: "reviewer", name: "Reviewer", role: "Verifies evidence support" },
+//   { id: "evaluation", name: "Evaluation", role: "Confidence & cost metrics" },
+// ];
+
 export const AGENT_ORDER: { id: AgentId; name: string; role: string }[] = [
   { id: "planner", name: "Planner", role: "Builds the investigation plan" },
   { id: "log", name: "Log Agent", role: "Parses pipeline logs for errors" },
-  { id: "rag", name: "RAG Agent", role: "Retrieves enterprise knowledge" },
-  { id: "schema", name: "Schema Agent", role: "Detects schema drift" },
-  { id: "risk", name: "Risk Agent", role: "Severity, impact, SLA risk" },
-  { id: "recovery", name: "Recovery Agent", role: "Recommends recovery steps" },
-  { id: "reviewer", name: "Reviewer", role: "Verifies evidence support" },
-  { id: "evaluation", name: "Evaluation", role: "Confidence & cost metrics" },
+  { id: "rag_agent", name: "RAG Agent", role: "Retrieves enterprise knowledge" },
+  { id: "schema_agent", name: "Schema Agent", role: "Detects schema drift" },
+  { id: "risk_agent", name: "Risk Agent", role: "Severity, impact, SLA risk" },
+  { id: "recovery_agent", name: "Recovery Agent", role: "Recommends recovery steps" },
+  { id: "reviewer_agent", name: "Reviewer", role: "Verifies evidence support" },
+  { id: "evaluation_agent", name: "Evaluation", role: "Confidence & cost metrics" },
 ];
 
 export function emptyAgents(): AgentState[] {

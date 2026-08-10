@@ -85,7 +85,7 @@ function Dashboard() {
             label="Total spend"
             value={`$${totalCost.toFixed(4)}`}
             tone="warning"
-            sub="Groq token cost estimate"
+            sub="OpenAI token cost estimate"
           />
         </div>
 

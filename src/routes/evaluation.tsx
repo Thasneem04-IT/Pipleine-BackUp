@@ -22,7 +22,7 @@ export const Route = createFileRoute("/evaluation")({
       {
         name: "description",
         content:
-          "Confidence, groundedness, hallucination risk, latency, token usage and estimated Groq cost per investigation.",
+          "Confidence, groundedness, hallucination risk, latency, token usage and estimated OpenAI cost per investigation.",
       },
       { property: "og:title", content: "Evaluation — PipelineMind AI" },
       {
@@ -93,7 +93,7 @@ function Evaluation() {
             label="Estimated cost"
             value={`$${e.estimatedCostUsd.toFixed(5)}`}
             tone="warning"
-            sub="Groq pricing estimate"
+            sub="OpenAI pricing estimate"
           />
           <Metric
             label="Hallucination risk"

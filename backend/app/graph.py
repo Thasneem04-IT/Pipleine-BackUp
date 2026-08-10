@@ -12,7 +12,7 @@ from typing import Annotated, Any, Dict, Iterator, List, TypedDict
 
 from langgraph.graph import END, START, StateGraph
 
-from .config import GROQ_MODEL, TOP_K
+from .config import OPENAI_MODEL, TOP_K
 from .llm import TokenMeter, call_json
 from .rag import retrieve
 
@@ -116,7 +116,7 @@ def log_agent(state: GraphState) -> Dict[str, Any]:
     }
 
 
-@timed("rag")
+@timed("rag_agent")
 def rag_agent(state: GraphState) -> Dict[str, Any]:
     inc = state["incident"]
     query = (state.get("rag") or {}).get("query") or inc.get("failure_description", "")
@@ -128,7 +128,7 @@ def rag_agent(state: GraphState) -> Dict[str, Any]:
     }
 
 
-@timed("schema")
+@timed("schema_agent")
 def schema_agent(state: GraphState) -> Dict[str, Any]:
     inc = state["incident"]
     schema_info = (inc.get("schema_info") or "").strip()
@@ -151,7 +151,7 @@ def schema_agent(state: GraphState) -> Dict[str, Any]:
     }
 
 
-@timed("risk")
+@timed("risk_agent")
 def risk_agent(state: GraphState) -> Dict[str, Any]:
     inc = state["incident"]
     context = "\n\n".join(c["chunk"] for c in (state.get("rag") or {}).get("chunks", [])[:5])
@@ -168,7 +168,7 @@ def risk_agent(state: GraphState) -> Dict[str, Any]:
     return {"risk": data, "summaries": {"risk": f"severity {data.get('severity', 'unknown')}"}}
 
 
-@timed("recovery")
+@timed("recovery_agent")
 def recovery_agent(state: GraphState) -> Dict[str, Any]:
     inc = state["incident"]
     context = "\n\n".join(c["chunk"] for c in (state.get("rag") or {}).get("chunks", [])[:6])
@@ -186,7 +186,7 @@ def recovery_agent(state: GraphState) -> Dict[str, Any]:
     return {"recovery": data, "summaries": {"recovery": f"{len(data.get('steps') or [])} recovery steps"}}
 
 
-@timed("reviewer")
+@timed("reviewer_agent")
 def reviewer_agent(state: GraphState) -> Dict[str, Any]:
     inc = state["incident"]
     context = "\n\n".join(
@@ -214,7 +214,7 @@ def reviewer_agent(state: GraphState) -> Dict[str, Any]:
     }
 
 
-@timed("evaluation")
+@timed("evaluation_agent")
 def evaluation_agent(state: GraphState) -> Dict[str, Any]:
     review = state.get("review", {}) or {}
     chunks = (state.get("rag") or {}).get("chunks", [])
@@ -241,7 +241,7 @@ def evaluation_agent(state: GraphState) -> Dict[str, Any]:
             "completionTokens": meter.completion,
             "totalTokens": meter.total,
             "estimatedCostUsd": round(meter.cost_usd, 6),
-            "model": GROQ_MODEL,
+            "model": OPENAI_MODEL,
         },
         "summaries": {"evaluation": f"confidence {int(confidence * 100)}%"},
     }

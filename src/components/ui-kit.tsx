@@ -103,8 +103,38 @@ export function EmptyState({
   );
 }
 
-export function FlowStrip() {
-  const steps = ["INPUT", "MULTI-AGENT LANGGRAPH", "RAG EVIDENCE", "INCIDENT REPORT"];
+// export function FlowStrip() {
+//   const steps = ["INPUT", "MULTI-AGENT LANGGRAPH", "RAG EVIDENCE", "INCIDENT REPORT"];
+//   return (
+//     <div className="panel flex flex-wrap items-center gap-2 px-4 py-3">
+//       {steps.map((s, i) => (
+//         <div key={s} className="flex items-center gap-2">
+//           <span
+//             className={cn(
+//               "mono-xs rounded-md border px-2.5 py-1 font-semibold",
+//               i === 0 && "border-info/40 bg-info/10 text-info",
+//               i === 1 && "border-primary/40 bg-primary/10 text-primary",
+//               i === 2 && "border-accent/40 bg-accent/10 text-accent",
+//               i === 3 && "border-success/40 bg-success/10 text-success",
+//             )}
+//           >
+//             {s}
+//           </span>
+//           {i < steps.length - 1 ? <span className="text-muted-foreground">→</span> : null}
+//         </div>
+//       ))}
+//     </div>
+//   );
+// }
+
+
+export function FlowStrip({
+  active = 0,
+  steps = ["INPUT", "MULTI-AGENT LANGGRAPH", "RAG EVIDENCE", "INCIDENT REPORT"],
+}: {
+  active?: number;
+  steps?: string[];
+}) {
   return (
     <div className="panel flex flex-wrap items-center gap-2 px-4 py-3">
       {steps.map((s, i) => (
@@ -116,11 +146,14 @@ export function FlowStrip() {
               i === 1 && "border-primary/40 bg-primary/10 text-primary",
               i === 2 && "border-accent/40 bg-accent/10 text-accent",
               i === 3 && "border-success/40 bg-success/10 text-success",
+              i === active && "ring-2 ring-primary/30",
             )}
           >
             {s}
           </span>
-          {i < steps.length - 1 ? <span className="text-muted-foreground">→</span> : null}
+          {i < steps.length - 1 ? (
+            <span className="text-muted-foreground">→</span>
+          ) : null}
         </div>
       ))}
     </div>

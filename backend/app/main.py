@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 
-from .config import ALLOWED_ORIGINS, GROQ_API_KEY, GROQ_MODEL
+from .config import ALLOWED_ORIGINS, OPENAI_API_KEY, OPENAI_MODEL
 from .graph import run_stream
 from .rag import clear, ingest, list_documents
 from .schemas import IncidentRequest, KnowledgeRequest
@@ -21,7 +21,7 @@ app.add_middleware(
 
 @app.get("/health")
 def health():
-    return {"status": "ok", "model": GROQ_MODEL, "groq_key_configured": bool(GROQ_API_KEY)}
+    return {"status": "ok", "model": OPENAI_MODEL, "openai_key_configured": bool(OPENAI_API_KEY)}
 
 
 @app.get("/knowledge")
